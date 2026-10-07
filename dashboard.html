@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitTrack Pro - Dashboard</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold text-primary" href="#">
+        <i class="bi bi-activity"></i> FitTrack Pro
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Overview</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Workouts</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Nutrition</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-3">
+          <span class="text-light small">Welcome, <strong id="userDisplay">User</strong></span>
+          <button id="logoutBtn" class="btn btn-outline-danger btn-sm">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container my-4">
+    
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2 class="fw-bold mb-0">Daily Fitness Overview</h2>
+        <p class="text-muted mb-0">Track your progress and reach your personal goals.</p>
+      </div>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addWorkoutModal">
+        <i class="bi bi-plus-circle me-1"></i> Log Workout
+      </button>
+    </div>
+
+    <!-- Metrics Cards (Bootstrap Grid) -->
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card shadow-sm p-3">
+          <div class="d-flex align-items-center">
+            <div class="stat-icon bg-primary bg-opacity-10 text-primary me-3">
+              <i class="bi bi-footprints"></i>
+            </div>
+            <div>
+              <p class="text-muted small mb-0 fw-semibold">Steps Taken</p>
+              <h4 class="fw-bold mb-0" id="stepCount">8,420</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card shadow-sm p-3">
+          <div class="d-flex align-items-center">
+            <div class="stat-icon bg-danger bg-opacity-10 text-danger me-3">
+              <i class="bi bi-fire"></i>
+            </div>
+            <div>
+              <p class="text-muted small mb-0 fw-semibold">Calories Burned</p>
+              <h4 class="fw-bold mb-0" id="calorieCount">540 kcal</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card shadow-sm p-3">
+          <div class="d-flex align-items-center">
+            <div class="stat-icon bg-success bg-opacity-10 text-success me-3">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <div>
+              <p class="text-muted small mb-0 fw-semibold">Active Time</p>
+              <h4 class="fw-bold mb-0">45 mins</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-xl-3">
+        <div class="card shadow-sm p-3">
+          <div class="d-flex align-items-center">
+            <div class="stat-icon bg-warning bg-opacity-10 text-warning me-3">
+              <i class="bi bi-cup-straw"></i>
+            </div>
+            <div>
+              <p class="text-muted small mb-0 fw-semibold">Water Intake</p>
+              <h4 class="fw-bold mb-0">2.1 / 3.0 L</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Table & Recent Logs -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-white py-3">
+        <h5 class="fw-bold mb-0">Recent Activity Log</h5>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Activity</th>
+                <th>Duration (mins)</th>
+                <th>Calories Burned</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="activityTableBody">
+              <!-- Dynamically Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Modal for Adding New Activity -->
+  <div class="modal fade" id="addWorkoutModal" tabindex="-1" aria-labelledby="workoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="workoutModalLabel">Log New Activity</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="activityForm">
+            <div class="mb-3">
+              <label for="activityName" class="form-label">Activity Name</label>
+              <input type="text" class="form-control" id="activityName" placeholder="e.g. Running, Cycling" required>
+            </div>
+            <div class="mb-3">
+              <label for="activityDuration" class="form-label">Duration (minutes)</label>
+              <input type="number" class="form-control" id="activityDuration" required>
+            </div>
+            <div class="mb-3">
+              <label for="activityCalories" class="form-label">Estimated Calories Burned</label>
+              <input type="number" class="form-control" id="activityCalories" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Add Activity</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Dashboard JS -->
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
